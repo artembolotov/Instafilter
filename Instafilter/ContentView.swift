@@ -6,24 +6,35 @@
 //
 
 import SwiftUI
+import CoreImage
+import CoreImage.CIFilterBuiltins
 
 struct ContentView: View {
-    @State private var blurAmount = 0.0
+    @State private var image: Image?
     
     var body: some View {
         VStack {
-            Text("Hello!")
-                .blur(radius: blurAmount)
-            
-            Slider(value: $blurAmount, in: 0...20)
-            
-            Button("Random blur") {
-                blurAmount = Double.random(in: 0...20)
-            }
+            image?
+                .resizable()
+                .scaledToFit()
         }
-        .padding()
-        .onChange(of: blurAmount) { newValue in
-            print("Blur amount changed = \(newValue)")
+        .onAppear(perform: loadImage)
+    }
+    
+    func loadImage() {
+        guard let inputImage = UIImage(named: "Example") else { return }
+        let beginImage = CIImage(image: inputImage)
+     
+        let context = CIContext()
+        let currentFilter = CIFilter.pixellate()
+        currentFilter.inputImage = beginImage
+        currentFilter.scale = 100
+        
+        guard let outputImage = currentFilter.outputImage else { return }
+        
+        if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
+            let uiImage = UIImage(cgImage: cgimg)
+            image = Image(uiImage: uiImage)
         }
     }
 }
