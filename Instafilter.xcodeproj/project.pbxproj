@@ -11,6 +11,8 @@
 		AB59285A29B6F4A70060F958 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB59285929B6F4A70060F958 /* ContentView.swift */; };
 		AB59285C29B6F4AA0060F958 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB59285B29B6F4AA0060F958 /* Assets.xcassets */; };
 		AB59285F29B6F4AA0060F958 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB59285E29B6F4AA0060F958 /* Preview Assets.xcassets */; };
+		AB59286629B9B86F0060F958 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB59286529B9B86F0060F958 /* ImagePicker.swift */; };
+		ABAEA0F429B9D1A400D12AC0 /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAEA0F329B9D1A400D12AC0 /* ImageSaver.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +21,8 @@
 		AB59285929B6F4A70060F958 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		AB59285B29B6F4AA0060F958 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AB59285E29B6F4AA0060F958 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		AB59286529B9B86F0060F958 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		ABAEA0F329B9D1A400D12AC0 /* ImageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +57,8 @@
 			children = (
 				AB59285729B6F4A70060F958 /* InstafilterApp.swift */,
 				AB59285929B6F4A70060F958 /* ContentView.swift */,
+				ABAEA0F329B9D1A400D12AC0 /* ImageSaver.swift */,
+				AB59286529B9B86F0060F958 /* ImagePicker.swift */,
 				AB59285B29B6F4AA0060F958 /* Assets.xcassets */,
 				AB59285D29B6F4AA0060F958 /* Preview Content */,
 			);
@@ -137,8 +143,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB59286629B9B86F0060F958 /* ImagePicker.swift in Sources */,
 				AB59285A29B6F4A70060F958 /* ContentView.swift in Sources */,
 				AB59285829B6F4A70060F958 /* InstafilterApp.swift in Sources */,
+				ABAEA0F429B9D1A400D12AC0 /* ImageSaver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,6 +278,7 @@
 				DEVELOPMENT_TEAM = 43YQFDZNH8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "We want to save your filtered photo";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -299,6 +308,7 @@
 				DEVELOPMENT_TEAM = 43YQFDZNH8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "We want to save your filtered photo";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
