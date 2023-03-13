@@ -11,42 +11,76 @@ import CoreImage.CIFilterBuiltins
 
 struct ContentView: View {
     @State private var image: Image?
+    
     @State private var filterIntensity = 0.5
+    @State private var filterRadius = 0.5
+    @State private var filterScale = 0.5
     
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
     @State private var processedImage: UIImage?
     
-    @State private var currentFilter: CIFilter = CIFilter.sepiaTone()
+    @State private var currentFilter: CIFilter = CIFilter.vignette()
     let context = CIContext()
     
     @State private var showingFilterSheet = false
-   
+    
     var body: some View {
         NavigationView {
             VStack {
-                ZStack {
-                    Rectangle()
-                        .fill(.secondary)
+                ZStack(alignment: .bottom) {
+                    GeometryReader { proxy in
+                        ZStack {
+                            Rectangle()
+                                .fill(.secondary)
+                            
+                            Text("Tap to select a picture")
+                                .foregroundColor(.white)
+                                .font(.headline)
+                            
+                            image?
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: proxy.size.width - 16)
+                                .clipped()
+                        }
+                        .padding(8)
+                        .onTapGesture {
+                             showingImagePicker = true
+                        }
+                    }
                     
-                    Text("Tap to select a picture")
-                        .foregroundColor(.white)
-                        .font(.headline)
+                    if currentFilter.inputKeys.contains(where: ["inputIntensity", "inputRadius", "inputScale"].contains) {
+                        
+                        VStack {
+                            if currentFilter.inputKeys.contains("inputIntensity") {
+                                HStack {
+                                    Text("Intensity")
+                                    Slider(value: $filterIntensity)
+                                        .onChange(of: filterIntensity) { _ in applyProcessing() }
+                                }
+                            }
                     
-                    image?
-                        .resizable()
-                        .scaledToFit()
+                            if currentFilter.inputKeys.contains("inputRadius") {
+                                HStack {
+                                    Text("Radius")
+                                    Slider(value: $filterRadius)
+                                        .onChange(of: filterRadius) { _ in applyProcessing()}
+                                }
+                            }
+                    
+                            if currentFilter.inputKeys.contains("inputScale") {
+                                HStack {
+                                    Text("Scale")
+                                    Slider(value: $filterScale)
+                                        .onChange(of: filterScale) { _ in applyProcessing()}
+                                }
+                            }
+                        }
+                        .padding()
+                        .background(.ultraThickMaterial)
+                    }
                 }
-                .onTapGesture {
-                     showingImagePicker = true
-                }
-                
-                HStack {
-                    Text("Intensity")
-                    Slider(value: $filterIntensity)
-                        .onChange(of: filterIntensity) { _ in applyProcessing() }
-                }
-                .padding(.vertical)
                 
                 HStack {
                     Button("Change filter") {
@@ -56,9 +90,11 @@ struct ContentView: View {
                     Spacer()
                     
                     Button("Save", action: save)
+                        .disabled(processedImage == nil)
                 }
+                .padding([.horizontal])
             }
-            .padding([.horizontal, .bottom])
+            .padding(.bottom)
             .navigationTitle("Instafilter")
             .onChange(of: inputImage) { _ in loadImage() }
             .sheet(isPresented: $showingImagePicker) {
@@ -72,6 +108,7 @@ struct ContentView: View {
                 Button("Sepia Tone") { setFilter(CIFilter.sepiaTone()) }
                 Button("Unsharp Mask") { setFilter(CIFilter.unsharpMask()) }
                 Button("Vignette") { setFilter(CIFilter.vignette()) }
+                Button("Thermal") { setFilter(CIFilter.thermal()) }
                 Button("Cancel", role: .cancel) { }
             }
         }
@@ -109,11 +146,11 @@ struct ContentView: View {
         }
         
         if inputKeys.contains(kCIInputRadiusKey) {
-            currentFilter.setValue(filterIntensity * 200, forKey: kCIInputRadiusKey)
+            currentFilter.setValue(filterRadius * 200, forKey: kCIInputRadiusKey)
         }
         
         if inputKeys.contains(kCIInputScaleKey) {
-            currentFilter.setValue(filterIntensity * 10, forKey: kCIInputScaleKey)
+            currentFilter.setValue(filterScale * 10, forKey: kCIInputScaleKey)
         }
         
         guard let outputImege = currentFilter.outputImage else { return }
@@ -127,6 +164,9 @@ struct ContentView: View {
     
     func setFilter(_ filter: CIFilter) {
         currentFilter = filter
+        
+        print(currentFilter.inputKeys)
+        
         loadImage()
     }
 }
