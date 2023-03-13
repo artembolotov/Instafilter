@@ -101,14 +101,18 @@ struct ContentView: View {
                 ImagePicker(image: $inputImage)
             }
             .confirmationDialog("Select a filter", isPresented: $showingFilterSheet) {
-                Button("Crystallize") { setFilter(CIFilter.crystallize()) }
-                Button("Edges") { setFilter(CIFilter.edges() ) }
-                Button("Gaussian Blur") { setFilter(CIFilter.gaussianBlur()) }
-                Button("Pixelate") { setFilter(CIFilter.pixellate()) }
-                Button("Sepia Tone") { setFilter(CIFilter.sepiaTone()) }
-                Button("Unsharp Mask") { setFilter(CIFilter.unsharpMask()) }
+                Group {
+                    Button("Crystallize") { setFilter(CIFilter.crystallize()) }
+                    Button("Edges") { setFilter(CIFilter.edges() ) }
+                    Button("Gaussian Blur") { setFilter(CIFilter.gaussianBlur()) }
+                    Button("Pixelate") { setFilter(CIFilter.pixellate()) }
+                    Button("Sepia Tone") { setFilter(CIFilter.sepiaTone()) }
+                    Button("Unsharp Mask") { setFilter(CIFilter.unsharpMask()) }
+                }
                 Button("Vignette") { setFilter(CIFilter.vignette()) }
                 Button("Thermal") { setFilter(CIFilter.thermal()) }
+                Button("Tonal") { setFilter(CIFilter.photoEffectTonal()) }
+                Button("xRay") { setFilter(CIFilter.xRay()) }
                 Button("Cancel", role: .cancel) { }
             }
         }
@@ -163,11 +167,18 @@ struct ContentView: View {
     }
     
     func setFilter(_ filter: CIFilter) {
-        currentFilter = filter
+        guard currentFilter.name != filter.name else { return }
         
-        print(currentFilter.inputKeys)
+        currentFilter = filter
+        resetSliders()
         
         loadImage()
+    }
+    
+    func resetSliders() {
+        filterIntensity = 0.5
+        filterRadius = 0.5
+        filterScale = 0.5
     }
 }
 
